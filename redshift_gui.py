@@ -115,7 +115,7 @@ class RedshiftGUI(QMainWindow):
         
         Args:
             a0: The close event
-        """
+        
             event: The close event
         """
         # Check if there are unsaved changes
