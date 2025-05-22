@@ -1,12 +1,16 @@
 """
 Event handlers for the Redshift GUI application.
+
+MIT License
+Copyright (c) 2025 NIRSpec MSA Redshift Analysis GUI Contributors
+See LICENSE file for details.
 """
 import os
 import logging
 import threading
 from PyQt5.QtWidgets import QMessageBox, QApplication
 from PyQt5.QtCore import Qt
-from utils import handle_error
+from utils import handle_error, get_related_files
 from file_utils import (
     select_directory, find_existing_results, load_yaml_data, 
     load_redshift_csv, save_yaml_data
@@ -141,7 +145,7 @@ def load_current_spectrum(gui):
     update_display(gui)   # Update UI to reflect cleared state
 
     # Load the 2D spectrum
-    spectrum_result = load_2d_spectrum(spectrum_file)
+    spectrum_result = load_2d_spectrum(spectrum_file, handle_galaxy_image=True, filters='f115w-clear,f277w-clear,f444w-clear')
     if spectrum_result:
         gui.s2d_pixmap = spectrum_result.get('s2d_pixmap')
         gui.galaxy_pixmap = spectrum_result.get('galaxy_pixmap')

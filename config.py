@@ -1,5 +1,9 @@
 """
 Configuration and constants for the Redshift GUI application.
+
+MIT License
+Copyright (c) 2025 NIRSpec MSA Redshift Analysis GUI Contributors
+See LICENSE file for details.
 """
 
 # Redshift fitting constants

@@ -1,5 +1,9 @@
 """
 Spectrum processing functions for the Redshift GUI application.
+
+MIT License
+Copyright (c) 2025 NIRSpec MSA Redshift Analysis GUI Contributors
+See LICENSE file for details.
 """
 import os
 import logging
@@ -55,14 +59,14 @@ def run_direct_fit(spectrum_file, z_min=0.0, z_max=10.0, update_status_callback=
             update_status_callback("Error during fit.")
         return False, None, None
 
-def load_2d_spectrum(spectrum_file, handle_galaxy_image=True):
+def load_2d_spectrum(spectrum_file, handle_galaxy_image=True, filters='f115w-clear,f277w-clear,f444w-clear'):
     """
     Load the 2D spectrum associated with a 1D spectrum file.
     
     Args:
         spectrum_file (str): Path to the 1D spectrum file
         handle_galaxy_image (bool): Whether to fetch the galaxy image
-        
+        filters (str): Comma-separated list of filters for galaxy image
     Returns:
         dict: Dictionary with 's2d_pixmap' and 'galaxy_pixmap' (if requested)
     """
@@ -100,7 +104,14 @@ def load_2d_spectrum(spectrum_file, handle_galaxy_image=True):
                 metafile = model.meta.instrument.msa_metadata_file.split('_')[0]
                 
                 if ra is not None and dec is not None:
-                    result['galaxy_pixmap'] = fetch_galaxy_image(ra, dec, metafile=metafile)
+                    result['galaxy_pixmap'] = fetch_galaxy_image(
+                        ra=ra, 
+                        dec=dec, 
+                        size=1.0,  # Size in arcminutes 
+                        metafile=metafile,
+                        scl=3,
+                        filters=filters,
+                    )
                     result['ra_dec'] = (ra, dec)
     
     except Exception as e:
